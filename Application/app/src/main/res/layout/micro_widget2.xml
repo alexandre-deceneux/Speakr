@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="50"
-        android:src="@drawable/ico_speakr"
+        android:src="@drawable/logo"
         android:id="@+id/icon" />
 
     <ImageView
