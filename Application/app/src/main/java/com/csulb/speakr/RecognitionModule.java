@@ -6,6 +6,8 @@ import android.speech.RecognitionListener;
 
 public class RecognitionModule implements RecognitionListener {
 
+    public final static String TAG = "RecognitionModule";
+
     Context mContext;
     OnFinishListener mOnFinishListener;
 

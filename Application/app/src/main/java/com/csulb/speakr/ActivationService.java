@@ -23,9 +23,10 @@ import android.widget.Toast;
  */
 public class ActivationService extends Service {
 
+    public final static String TAG = "ActivationService";
+
     Intent mIntent;
     private int NOTIFICATION_ID = 862821961;
-    public final static String TAG = "ActivationService";
 
     /**
      * Ajoute une notification
@@ -69,12 +70,16 @@ public class ActivationService extends Service {
         super.onStartCommand(intent, flags, startId);
         mIntent = intent;
 
+        if (intent == null)
+            return 0;
+        Bundle extras = intent.getExtras();
+        if (extras == null || extras.containsKey("start") == false || extras.getBoolean("start") == false)
+            return 0;
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.micro_widget2);
         ComponentName thisWidget = new ComponentName(this, MicroWidget.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(this);
         manager.updateAppWidget(thisWidget, view);
 
-        Log.d(TAG, "start service");
         // Suppression de notification s'il y en a
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(NOTIFICATION_ID);
@@ -94,11 +99,11 @@ public class ActivationService extends Service {
 
     @Override
     public void onDestroy(){
-        Log.d(TAG, "stop service");
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(NOTIFICATION_ID);
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.micro_widget);
         Intent serviceIntent = new Intent(getApplicationContext(), ActivationService.class);
+        serviceIntent.putExtra("start", true);
         PendingIntent pendingIntent = PendingIntent.getService(
                 getApplicationContext().getApplicationContext(), 0, serviceIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

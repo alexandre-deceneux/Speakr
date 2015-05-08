@@ -1,0 +1,122 @@
+{"name":"action list", "list":[
+
+  {
+    "id":"1",
+    "name":"call",
+    "description":"call_desc",
+    "params":["call_param1"]
+  },
+
+  {
+    "id":"2",
+    "name":"go_to",
+    "description":"go_to_desc",
+    "params":["go_to_param1"]
+  },
+
+  {
+    "id":"3",
+    "name":"play_music",
+    "description":"play_music_desc",
+    "params":["play_music_param1"]
+  },
+
+  {
+    "id":"4",
+    "name":"play_video",
+    "description":"play_video_desc",
+    "params":["play_video_param1"]
+  },
+
+  {
+    "id":"5",
+    "name":"set_alarm",
+    "description":"set_alarm_desc",
+    "params":["set_alarm_param1", "set_alarm_param2"]
+  },
+
+  {
+    "id":"6",
+    "name":"send_text",
+    "description":"send_text_desc",
+    "params":["send_text_param1", "send_text_param2"]
+  },
+
+  {
+    "id":"7",
+    "name":"start_app",
+    "description":"start_app_desc",
+    "params":["start_app_param1"]
+  },
+
+  {
+    "id":"8",
+    "name":"take_picture",
+    "description":"take_picture_desc",
+    "params":[]
+  },
+
+  {
+    "id":"9",
+    "name":"take_screenshot",
+    "description":"take_screenshot_desc",
+    "params":[]
+  },
+
+  {
+    "id":"10",
+    "name":"take_video",
+    "description":"take_video_desc",
+    "params":[]
+  },
+
+  {
+    "id":"11",
+    "name":"today_planning",
+    "description":"today_planning_desc",
+    "params":[]
+  },
+
+  {
+    "id":"12",
+    "name":"today_weather",
+    "description":"today_weather_desc",
+    "params":[]
+  },
+
+  {
+    "id":"13",
+    "name":"unset_alarm",
+    "description":"unset_alarm_desc",
+    "params":[]
+  },
+
+  {
+    "id":"14",
+    "name":"volume_max",
+    "description":"volume_max_desc",
+    "params":[]
+  },
+
+  {
+    "id":"15",
+    "name":"volume_mid",
+    "description":"volume_mid_desc",
+    "params":[]
+  },
+
+  {
+    "id":"16",
+    "name":"volume_min",
+    "description":"volume_min_desc",
+    "params":[]
+  },
+
+  {
+    "id":"17",
+    "name":"websearch",
+    "description":"websearch_desc",
+    "params":["websearch_param1"]
+  }
+
+]}

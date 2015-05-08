@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="userActions">
-        <item>Monter Volume</item>
-        <item>Couper son</item>
-    </string-array>
-
 </resources>

@@ -1,6 +1,64 @@
 <resources>
     <string name="app_name">Speakr</string>
+    <string name="action_settings">Paramètres</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="add">Ajouter</string>
+    <string name="associate">Associer</string>
+    <string name="command_list">Liste des commandes enregistrées :</string>
+    <string name="command_removal">Suppression de commande</string>
+    <string name="command_removal_hint1">Etes-vous sûr de vouloir supprimer cette commande (</string>
+    <string name="command_removal_hint2">) ?</string>
+    <string name="list">Liste</string>
+    <string name="none">Aucune</string>
+    <string name="select_action">Sélection de l\'action</string>
+    <string name="speak">Parler</string>
+    <string name="vocal_command_definition">Définition de la commande vocale (parlez ou écrivez)</string>
+
+    <string name="call">Apeller</string>
+    <string name="go_to">Aller à</string>
+    <string name="play_music">Jouer musique</string>
+    <string name="play_video">Jouer vidéo</string>
+    <string name="set_alarm">Ajouter alarme</string>
+    <string name="send_text">Envoyer message</string>
+    <string name="start_app">Lancer application</string>
+    <string name="take_picture">Prendre une photo</string>
+    <string name="take_screenshot">Capture d\'écran</string>
+    <string name="take_video">Prendre une vidéo</string>
+    <string name="today_planning">RDV de la journée</string>
+    <string name="today_weather">Météo de la journée</string>
+    <string name="unset_alarm">Supprimer alarme</string>
+    <string name="volume_max">Volume maximum</string>
+    <string name="volume_mid">Volume moyen</string>
+    <string name="volume_min">Volume miminum</string>
+    <string name="websearch">Recherche web</string>
+
+    <string name="call_desc">Appeller un de vos contact</string>
+    <string name="go_to_desc">Démarrer un itinéraire</string>
+    <string name="play_music_desc">Jouer une musique de la gallerie</string>
+    <string name="play_video_desc">Jouer une vidéo de la gallerie</string>
+    <string name="set_alarm_desc">Programmer une alarm</string>
+    <string name="send_text_desc">Envoyer un message text</string>
+    <string name="start_app_desc">Démarrer une application</string>
+    <string name="take_picture_desc">Prendre une photo</string>
+    <string name="take_screenshot_desc">Prendre une capture d\'écran</string>
+    <string name="take_video_desc">Prendre une vidéo</string>
+    <string name="today_planning_desc">Affiche le l\'emploi du temps de la journée</string>
+    <string name="today_weather_desc">Affiche la météo du jour</string>
+    <string name="unset_alarm_desc">Désactive l\'alarme précédemment créée</string>
+    <string name="volume_max_desc">Met le volume du téléphone au maximum</string>
+    <string name="volume_mid_desc">Met le volume du téléphone à la moitié de sa capacité</string>
+    <string name="volume_min_desc">Met le volume du téléphone au minimum</string>
+    <string name="websearch_desc">Lance une recherche Google</string>
+
+    <string name="call_param1">Nom de la personne à appeller</string>
+    <string name="go_to_param1">Destination désirée</string>
+    <string name="play_music_param1">Nom de la musique à jouer</string>
+    <string name="play_video_param1">Nom de la vidéo à lire</string>
+    <string name="set_alarm_param1">Jour de l\'alarme</string>
+    <string name="set_alarm_param2">Heure de l\'alarme</string>
+    <string name="send_text_param1">Destinataire du message</string>
+    <string name="send_text_param2">Message à envoyé</string>
+    <string name="start_app_param1">Application à démarrer</string>
+    <string name="websearch_param1">Termes à rechercher</string>
+
 </resources>

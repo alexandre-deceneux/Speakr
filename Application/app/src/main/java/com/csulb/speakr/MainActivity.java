@@ -1,81 +1,58 @@
 package com.csulb.speakr;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
-import android.support.v7.app.ActionBarActivity;
+import android.content.res.AssetManager;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.TabHost;
 
-import java.util.ArrayList;
+import com.csulb.speakr.actionlistdata.ActionListSingleton;
+import com.csulb.speakr.actionlistdata.GsonAction;
+import com.csulb.speakr.actionlistdata.GsonActionList;
+import com.google.gson.Gson;
 
-public class MainActivity extends ActionBarActivity {
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+public class MainActivity extends FragmentActivity {
 
     private final static String TAG = "MainActivity";
+
+    private InvalidateListListener mInvalidateListListener = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadSingleton();
+        invalidateList();
 
-        Button validateEntryButton = (Button)findViewById(R.id.validateEntryButton);
-        validateEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String key = ((TextView) findViewById(R.id.textEntry)).getText().toString();
-                String action = ((Spinner) findViewById(R.id.actionsList)).getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), "\"" + key + "\" bind with \"" + action + "\"", Toast.LENGTH_LONG).show();
-                SharedPreferences prefs = getApplicationContext().getSharedPreferences("UserActions", 0);
-                prefs.edit().putString(key, action).commit();
-            }
-        });
+        TabHost mTabHost = (TabHost)findViewById(R.id.tabHost);
+        mTabHost.setup();
+        mTabHost.addTab(mTabHost.newTabSpec("TAB 1").setIndicator(getResources().getString(R.string.list)).setContent(R.id.view));
+        mTabHost.addTab(mTabHost.newTabSpec("TAB 2").setIndicator(getResources().getString(R.string.add)).setContent(R.id.add));
+    }
 
-        Button speakButton = (Button)findViewById(R.id.speakButton);
-        speakButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SpeechRecognizer sp = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-                sp.setRecognitionListener(new ActionMakerListener(getApplicationContext()));
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.csulb.speakr");
-                intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
-                sp.startListening(intent);
-            }
-        });
-
-        Button recordButton = (Button)findViewById(R.id.startButton);
-        recordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SpeechRecognizer sp = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-                RecognitionModule listener = new RecognitionModule(MainActivity.this);
-                listener.setOnFinishListener(new OnFinishListener() {
-                    @Override
-                    public void onFinish() {
-                    }
-
-                    @Override
-                    public void onFinish(Bundle results) {
-                        ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                        ((TextView) findViewById(R.id.textEntry)).setText(data.get(0).toString());
-                    }
-                });
-                sp.setRecognitionListener(listener);
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.csulb.speakr");
-                intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
-                sp.startListening(intent);
-            }
-        });
+    private void    loadSingleton(){
+        ActionListSingleton singleton = ActionListSingleton.getInstance();
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream ims = assetManager.open("action_list.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ims));
+            StringBuilder fileContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null)
+                fileContent.append(line);
+            Gson gson = new Gson();
+            GsonActionList dataIn = gson.fromJson(fileContent.toString().replace(" ", ""), GsonActionList.class);
+            singleton.setData(dataIn, getResources());
+        } catch (IOException e) {e.printStackTrace();}
     }
 
     @Override
@@ -88,5 +65,18 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
+
+    public void invalidateList(){
+        if (mInvalidateListListener != null)
+            mInvalidateListListener.invalideList();
+    }
+
+    public void setInvalidateListListener(InvalidateListListener listener){
+        mInvalidateListListener = listener;
+    }
+
+    interface InvalidateListListener{
+        void    invalideList();
     }
 }
