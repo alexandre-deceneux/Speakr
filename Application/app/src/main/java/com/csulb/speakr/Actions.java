@@ -11,6 +11,7 @@ import java.util.Map;
 import com.csulb.speakr.actionlistdata.ActionListSingleton;
 import com.csulb.speakr.actionlistdata.GsonAction;
 import com.csulb.speakr.actionlistdata.GsonActionList;
+import com.csulb.speakr.actions.ActionCall;
 import com.csulb.speakr.actions.ActionMaximumVolume;
 import com.csulb.speakr.actions.ActionMiddleVolume;
 import com.csulb.speakr.actions.ActionMinimumVolume;
@@ -34,6 +35,7 @@ public class Actions {
         mContext = context;
         mActionsList = new HashMap<>();
         GsonAction [] actions = ActionListSingleton.getInstance().getData().getList();
+        mActionsList.put(String.valueOf(actions[0].getId()), new ActionCall());
         mActionsList.put(String.valueOf(actions[7].getId()), new ActionTakePicture());
         mActionsList.put(String.valueOf(actions[8].getId()), new ActionTakeScreenshot());
         mActionsList.put(String.valueOf(actions[9].getId()), new ActionTakeVideo());
@@ -43,25 +45,29 @@ public class Actions {
         mActionsList.put(String.valueOf(actions[15].getId()), new ActionMinimumVolume());
     }
 
-    public  boolean executeAction(String action){
-        GsonAction gAction = Actions.getActionFromId(action);
-        Toast.makeText(mContext, "Execute: \"" + gAction.getName() + "\"", Toast.LENGTH_LONG).show();
-        if (mActionsList.containsKey(action))
-            return mActionsList.get(action).doAction(mContext);
+    public  boolean executeAction(GsonAction action, String[] args){
+        if (action == null)
+            Log.d(TAG, "Action null");
+        else
+            Log.d(TAG, "Action : " + action.getId() + "   " + action.getName());
+
+        if (action == null)
+            return false;
+        Toast.makeText(mContext, "Execute: \"" + action.getName() + "\"", Toast.LENGTH_LONG).show();
+        if (mActionsList.containsKey(action.getId()))
+            return mActionsList.get(action.getId()).doAction(mContext, args);
         return false;
     }
 
     public interface UserActionListener{
-        boolean doAction(Context context);
+        boolean doAction(Context context, String[] args);
     }
 
     public static GsonAction   getActionFromId(String value){
         ActionListSingleton singleton = ActionListSingleton.getInstance();
         GsonActionList list = singleton.getData();
-        if (list == null || list.getList() == null) {
-            Log.e(TAG, "Singleton data non initialized");
+        if (list == null || list.getList() == null)
             return null;
-        }
         for (GsonAction action : list.getList())
             if (action.getId().equals(value))
                 return action;
