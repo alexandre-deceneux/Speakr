@@ -13,7 +13,7 @@ public class ActionPlanning implements Actions.UserActionListener {
     public final static String TAG = "ActionPlanning";
 
     @Override
-    public boolean doAction(Context context) {
+    public boolean doAction(Context context, String[] args) {
         ComponentName cn;
         Intent i = new Intent();
         cn = new ComponentName("com.android.calendar", "com.android.calendar.LaunchActivity");

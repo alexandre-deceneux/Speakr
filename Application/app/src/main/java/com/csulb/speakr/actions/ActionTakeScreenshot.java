@@ -14,7 +14,7 @@ public class ActionTakeScreenshot implements Actions.UserActionListener {
     public final static String TAG = "ActionTakeScreenshot";
 
     @Override
-    public boolean doAction(Context context) {
+    public boolean doAction(Context context, String[] args) {
         try {
             Process sh = Runtime.getRuntime().exec("su");
             OutputStream os = sh.getOutputStream();

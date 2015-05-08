@@ -17,7 +17,7 @@ public class ActionTakePicture implements Actions.UserActionListener {
     public final static String TAG = "ActionTakePicture";
 
     @Override
-    public boolean doAction(Context context) {
+    public boolean doAction(Context context, String[] args) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File imagesFolder = new File(Environment.getExternalStorageDirectory(), "MyImages");
         imagesFolder.mkdirs();

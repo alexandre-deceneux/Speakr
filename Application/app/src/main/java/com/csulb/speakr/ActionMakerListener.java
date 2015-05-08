@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.csulb.speakr.actionlistdata.ActionListSingleton;
+import com.csulb.speakr.actionlistdata.GsonAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,13 +76,13 @@ public class ActionMakerListener implements RecognitionListener {
 
         Set<String> keys = prefs.getAll().keySet();
         for (String action : keys) {
-            Log.d(TAG, "Key: " + action);
-            String[] ret = parseArguments(action, data);
-            if (ret != null) {
-                Log.d(TAG, "BIEN JOUE JB !!!!!!");
-                for (String test : ret)
+            String[] args = parseArguments(action, data);
+            if (args != null) {
+                Log.d(TAG, "Commande: " + action);
+                for (String test : args)
                     Log.d(TAG, "  -->" + test);
-                //mActionMaker.executeAction("");
+                Log.d(TAG, "Recherche: " + prefs.getString(action, ""));
+                mActionMaker.executeAction(Actions.getActionFromId(prefs.getString(action, "")), args);
                 if (mOnFinishListener != null)
                     mOnFinishListener.onFinish();
                 return;
@@ -150,15 +151,18 @@ public class ActionMakerListener implements RecognitionListener {
         for (int i = 0, len = data.size(); i < len; i++) {
             String[] dataMatch = data.get(i).toString().split("\\s+");
 
+
+            Log.d(TAG, "Compare: " + pattern + " / " + data.get(i).toString());
+
             if (dataMatch.length == patternArray.length) {
                 int j = 0;
                 for (int patternLength = patternArray.length; j < patternLength; j++) {
                     Matcher matcher = patternParenthesis.matcher(patternArray[j]);
-                    System.out.println(patternArray[j] + " - " + dataMatch[j]);
+                    //System.out.println(patternArray[j] + " - " + dataMatch[j]);
                     if (matcher.find()) {
                         hmap.put(Integer.parseInt(matcher.group(1)), dataMatch[j]);
                     } else if (!patternArray[j].equals(dataMatch[j])) {
-                        System.out.println(">>>>>>" + patternArray[j] + " - " + dataMatch[j]);
+                        //System.out.println(">>>>>>" + patternArray[j] + " - " + dataMatch[j]);
                         hmap.clear();
                         break;
                     }
@@ -170,49 +174,6 @@ public class ActionMakerListener implements RecognitionListener {
                 }
             }
         }
-
-//        Integer []paramsOrder = getParamsOrder(pattern);
-//        if (paramsOrder == null){
-//            Log.e(TAG, "param order nicke");
-//            return null;
-//        }
-//        for (int i = 0; i < data.size(); i++) {
-//            String line = data.get(i).toString();
-//            String delimKeyWords = "\\(\\d+\\)";
-//            String [] keyWords = pattern.split(delimKeyWords);
-//            String paramsDelim = "";
-//            for (int i2 = 0; i2 < keyWords.length; ++i2) {
-//                if (i2 != 0)
-//                    paramsDelim += "\\s+";
-//                else
-//                    paramsDelim += "(.*)";
-//                paramsDelim += keyWords[i2];
-//                if (i2 != keyWords.length - 1)
-//                    paramsDelim += "\\s+(.*)";
-//                else
-//                    paramsDelim += "(.*)";
-//            }
-//            String match = "";
-//            for (int i2 = 0; i2 < paramsOrder.length; ++i2){
-//                match += "$" + (i + 2);
-//                if (i2 != paramsOrder.length - 1)
-//                    match += ";";
-//            }
-//            String paramsLine = line.replaceAll(paramsDelim, match);
-//            String[] params = paramsLine.split(";");
-//
-//            if (params.length == paramsOrder.length) {  ////PAS MIT DANS l'ORDRE !!
-//                Log.d(TAG, "----> WIIIIIIIIIIIIIIIIIIINER !");
-//                Log.d(TAG, "line : " + line);
-//                Log.d(TAG, "paramsDelim : " + paramsDelim);
-//                Log.d(TAG, "match : " + match);
-//                Log.d(TAG, "Param line : " + paramsLine);
-//                for (String test : params)
-//                    Log.d(TAG, "   :" + test);
-//                Log.d(TAG, "<----");
-//                return params;
-//            }
-//        }
         return null;
     }
 }
